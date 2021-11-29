@@ -1,7 +1,7 @@
-plugins {
-    id 'com.android.application'
-}
-
+//plugins {
+//    id 'com.android.application'
+//}
+apply plugin: 'com.android.application'
 android {
     compileSdk 30
 
@@ -24,6 +24,15 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        jcenter()
     }
 }
 
