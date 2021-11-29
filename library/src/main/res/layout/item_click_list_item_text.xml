@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <TextView
+        android:id="@+id/item_sizer_select_click_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_common_gray_white_bg"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="全部"
+        android:textColor="#FF777DDC"
+        android:textSize="13sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="8dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

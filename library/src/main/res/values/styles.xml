@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 自定义仿IOS的AlertDialog的样式 -->
+    <style name="AlertDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!--底部弹出Dialog动画-->
+    <style name="BottomAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/anim_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
+    </style>
+
+
+
+<!--    <style name="WheelStyleDemo">-->
+<!--        <item name="wheel_itemTextColor">@android:color/holo_green_dark</item>-->
+<!--        <item name="wheel_itemTextColorSelected">@android:color/holo_green_light</item>-->
+<!--        <item name="wheel_itemTextSize">20sp</item>-->
+<!--        <item name="wheel_itemTextSizeSelected">22sp</item>-->
+<!--        <item name="wheel_itemTextBoldSelected">true</item>-->
+<!--        <item name="wheel_sameWidthEnabled">false</item>-->
+<!--        <item name="wheel_atmosphericEnabled">true</item>-->
+<!--        <item name="wheel_curtainEnabled">false</item>-->
+<!--        <item name="wheel_curvedEnabled">false</item>-->
+<!--        <item name="wheel_curvedMaxAngle">60</item>-->
+<!--        <item name="wheel_cyclicEnabled">true</item>-->
+<!--        <item name="wheel_indicatorEnabled">true</item>-->
+<!--        <item name="wheel_indicatorColor">@android:color/holo_green_dark</item>-->
+<!--        <item name="wheel_indicatorSize">1dp</item>-->
+<!--    </style>-->
+
+
+
+</resources>

@@ -1,0 +1,3 @@
+rootProject.name = "FilterBox"
+include ':app'
+include ':library'
