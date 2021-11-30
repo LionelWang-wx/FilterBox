@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tv_action;
     PopupFilterBoxFactory factory;
-    //第一列
+    //第一列(三级联动的情况第二列、第三列需要通过第一列数据组装而成)
     private List<JsonBean> options1Items = new ArrayList<>();
     //第二列
     private List<List<TextBean>> options2Items = new ArrayList<>();
