@@ -16,19 +16,19 @@ import com.lionelwang.library.mode.mainmode.PopupMode;
 public class PopupFilterBoxFactory extends BaseFilterBoxFactory {
 
     private Context context;
-    //设置主容器的布局:弹窗样式默认布局--->layout_base_popup,支持修改
-    private View layoutView;
     private PopupMode popupMode;
+    //主样式
+    private BaseMainStyle mainStyle;
 
     public PopupFilterBoxFactory(Context context,Builder builder){
            this.context = context;
-           this.layoutView = builder.layoutView;
+           this.mainStyle = builder.mainStyle;
            this.getMainMode();
     }
 
     @Override
     public void getMainMode(){
-        popupMode = new PopupMode.Builder().setLayoutRes(layoutView).build(context);
+        popupMode = new PopupMode.Builder().setLayoutRes(mainStyle.getLayoutView()).build(context);
     }
 
     /**
@@ -63,11 +63,11 @@ public class PopupFilterBoxFactory extends BaseFilterBoxFactory {
      */
     public static class Builder{
 
-        //设置主容器的布局:弹窗样式默认布局--->layout_base_popup,支持修改
-        private View layoutView;
+        //主样式
+        private BaseMainStyle mainStyle;
 
-        public Builder setLayoutView(View layoutView){
-            this.layoutView = layoutView;
+        public Builder setMainStyle(BaseMainStyle mainStyle){
+            this.mainStyle = mainStyle;
             return this;
         }
 

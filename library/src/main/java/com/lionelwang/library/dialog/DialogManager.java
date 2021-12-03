@@ -2,14 +2,12 @@ package com.lionelwang.library.dialog;
 
 
 import android.content.Context;
-import android.view.View;
 
-import com.lionelwang.library.base.BaseDialog;
-import com.lionelwang.library.bean.JsonBean;
 import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.DialogActionListener;
 import com.lionelwang.library.click.DialogSelectedListener;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
+import com.lionelwang.library.viewholder.ItemClickPopupViewHolder;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class DialogManager{
 
     private Context context;
     //第一列
-    private List<JsonBean> options1Items;
+    private List<TextBean> options1Items;
     //第二列
     private List<List<TextBean>> options2Items;
     //第三列
@@ -43,6 +41,10 @@ public class DialogManager{
     private BarSingleDialog barSingleDialog = null;
     //联动数据是否完整传入
     private boolean isLinkageCompleteData;
+    //是否展示全部选项
+    private boolean isShowAllSelect;
+    //弹窗标题
+    private String titleName;
 
     public DialogManager(Context context,Builder builder){
         this.context = context;
@@ -56,6 +58,8 @@ public class DialogManager{
 
         this.selectedListener = builder.selectedListener;
         this.actionListener = builder.actionListener;
+        this.isShowAllSelect = builder.isShowAllSelect;
+        this.titleName = builder.titleName;
 
         this.dialogMode = builder.dialogMode;
 
@@ -76,7 +80,9 @@ public class DialogManager{
                         .setDialogActionListener(actionListener)
                         .setDialogSelectedListener(selectedListener)
                         .setLinkageCompleteData(isLinkageCompleteData)
-                        .build(context).showDialog();
+                        .setShowAllSelect(isShowAllSelect)
+                        .setTitleName(titleName)
+                        .build(context);
                 break;
             case SINGLE_BAR_MODE:
                 barSingleDialog = new BarSingleDialog.Builder()
@@ -107,7 +113,7 @@ public class DialogManager{
 
     public static class Builder{
         //第一列
-        private List<JsonBean> options1Items;
+        private List<TextBean> options1Items;
         //第二列
         private List<List<TextBean>> options2Items;
         //第三列
@@ -129,6 +135,20 @@ public class DialogManager{
 
         //联动数据是否完整传入
         private boolean isLinkageCompleteData;
+        //是否展示全部选项
+        private boolean isShowAllSelect;
+        //弹窗标题
+        private String titleName;
+
+        public Builder setTitleName(String titleName) {
+            this.titleName = titleName;
+            return this;
+        }
+
+        public Builder setShowAllSelect(boolean showAllSelect){
+            this.isShowAllSelect = showAllSelect;
+            return this;
+        }
 
         public Builder setLinkageCompleteData(boolean isLinkageCompleteData){
             this.isLinkageCompleteData = isLinkageCompleteData;
@@ -142,7 +162,7 @@ public class DialogManager{
          * @param options3Items
          * @return
          */
-        public Builder setOptionsItems(List<JsonBean> options1Items,
+        public Builder setOptionsItems(List<TextBean> options1Items,
                                                     List<List<TextBean>> options2Items,
                                                     List<List<List<TextBean>>> options3Items){
             this.options1Items = options1Items;

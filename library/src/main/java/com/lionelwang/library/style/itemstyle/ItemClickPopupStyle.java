@@ -1,41 +1,38 @@
 package com.lionelwang.library.style.itemstyle;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.util.AttributeSet;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.lionelwang.library.R;
-import com.lionelwang.library.base.BaseFilterBoxFactory;
 import com.lionelwang.library.base.BaseItemStyle;
 import com.lionelwang.library.base.BaseViewHolder;
-import com.lionelwang.library.bean.JsonBean;
 import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.DialogActionListener;
+import com.lionelwang.library.click.SelectedListener;
 import com.lionelwang.library.click.SlideListener;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
 import com.lionelwang.library.mode.itemMode.ItemClickPopupMode;
 import com.lionelwang.library.viewholder.ItemClickPopupViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 点击弹出二级弹窗item样式
  */
-public class ItemClickPopupStyle extends BaseItemStyle<String>{
+public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
     private Context context;
     private String label;
-    private String selected;
+    private List<TextBean> resultSelectedList;
     private DialogActionListener actionListener;
     //第一列
-    private List<JsonBean> options1Items;
+    private List<TextBean> options1Items;
     //第二列
     private List<List<TextBean>> options2Items;
     //第三列
     private List<List<List<TextBean>>> options3Items;
-
     //不联动第一列
     private List<TextBean> nOptions1Items;
     //不联动第二列
@@ -48,11 +45,18 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
     private boolean isLinkageCompleteData;
     //滑动监听
     private SlideListener slideListener;
+    //是否展示全部选项
+    private boolean isShowAllSelect;
+    //确认监听
+    private SelectedListener selectedListener;
+    //弹窗标题
+    private String titleName;
+
 
     public ItemClickPopupStyle(Context context,Builder builder){
         this.context = context;
         this.label = builder.label;
-        this.selected = builder.selected;
+//        this.selectedList = builder.selectedList;
         this.options1Items = builder.options1Items;
         this.options2Items = builder.options2Items;
         this.options3Items = builder.options3Items;
@@ -64,6 +68,10 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
         this.actionListener = builder.actionListener;
         this.isLinkageCompleteData = builder.isLinkageCompleteData;
         this.slideListener = builder.slideListener;
+        this.isShowAllSelect = builder.isShowAllSelect;
+        this.selectedListener = builder.selectedListener;
+        this.titleName = builder.titleName;
+        this.resultSelectedList = builder.resultSelectedList;
 
         this.dialogMode = builder.dialogMode;
     }
@@ -77,15 +85,17 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
     public BaseViewHolder getItemViewHolder(View view){
         return new ItemClickPopupViewHolder.Builder()
                 .setLabel(label)
-                .setSelected(selected)
+                .setResultSelectedList(resultSelectedList)
                 .setDialogMode(dialogMode)
                 .setDialogActionListener(actionListener)
                 .setSlideListener(slideListener)
-                .setLinkageCompleteData(false)
+                .setSelectedListener(selectedListener)
+                .setTitleName(titleName)
                 .setNOptionsItems(nOptions1Items)
                 .setNOptionsItems(nOptions1Items,nOptions2Items,nOptions3Items)
                 .setOptionsItems(options1Items,options2Items,options3Items)
                 .setLinkageCompleteData(isLinkageCompleteData)
+                .setShowAllSelect(isShowAllSelect)
                 .build(view,context);
     }
 
@@ -95,8 +105,8 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
     }
 
     @Override
-    public String getItemStyleData() {
-        return selected;
+    public List<TextBean> getItemStyleData() {
+        return resultSelectedList;
     }
 
     @Override
@@ -106,18 +116,61 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
 
     @Override
     public void clearSelectedItem() {
-        selected = "";
+        //重置 1.有全部选项需要选中全部选项,其他取消选中
+        //    2.无全部选项,全部取消选中
+        switch (dialogMode){
+            case SINGLE_LEVEL_MODE:
+                 if (isShowAllSelect){
+                     for (TextBean bean : nOptions1Items){
+                         if (TextUtils.equals(bean.getText(),"全部") &&
+                             TextUtils.equals(bean.getId(),"0")){
+                            bean.setSelected(true);
+                         }else {
+                            bean.setSelected(false);
+                         }
+                     }
+                 }else {
+                     for (TextBean bean : nOptions1Items){
+                         bean.setSelected(false);
+                     }
+                 }
+                break;
+            case THREE_LEVEL_MODE:
+                for (TextBean bean1 : nOptions1Items){
+                    bean1.setSelected(false);
+                }
+                for (TextBean bean2 : nOptions2Items){
+                    bean2.setSelected(false);
+                }
+                for (TextBean bean3 : nOptions3Items){
+                    bean3.setSelected(false);
+                }
+                break;
+            case THREE_LINKAGE_MODE:
+                for (int i = 0; i < options1Items.size();i++){
+                    options1Items.get(i).setSelected(false);
+                    for (int j = 0; j < options2Items.size();j++){
+                        options2Items.get(i).get(j).setSelected(false);
+                        for (int k = 0; k < options3Items.size();k++){
+                            options3Items.get(i).get(j).get(k).setSelected(false);
+                        }
+                    }
+                }
+                break;
+            case SINGLE_BAR_MODE:
+
+                break;
+        }
     }
 
 
     public static class Builder {
         private String label;
-        private String selected;
         private DialogActionListener actionListener;
 
 
         //第一列
-        private List<JsonBean> options1Items;
+        private List<TextBean> options1Items;
         //第二列
         private List<List<TextBean>> options2Items;
         //第三列
@@ -135,6 +188,33 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
         private boolean isLinkageCompleteData;
         //滑动监听
         private SlideListener slideListener;
+        //是否展示全部选项
+        private boolean isShowAllSelect;
+        //确认监听
+        private SelectedListener selectedListener;
+        //弹窗标题
+        private String titleName;
+        //设置选中数据 默认内部生成,非必传
+        private List<TextBean> resultSelectedList = new ArrayList<>();
+
+        public Builder setResultSelectedList(List<TextBean> resultSelectedList) {
+            this.resultSelectedList = resultSelectedList;
+            return this;
+        }
+        public Builder setTitleName(String titleName) {
+            this.titleName = titleName;
+            return this;
+        }
+
+        public Builder setSelectedListener(SelectedListener selectedListener) {
+            this.selectedListener = selectedListener;
+            return this;
+        }
+
+        public Builder setShowAllSelect(boolean showAllSelect){
+            this.isShowAllSelect = showAllSelect;
+            return this;
+        }
 
         public Builder setLinkageCompleteData(boolean isLinkageCompleteData){
             this.isLinkageCompleteData = isLinkageCompleteData;
@@ -147,7 +227,7 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
          * @param options3Items
          * @return
          */
-        public Builder setOptionsItems(List<JsonBean> options1Items,
+        public Builder setOptionsItems(List<TextBean> options1Items,
                                                                 List<List<TextBean>> options2Items,
                                                                 List<List<List<TextBean>>> options3Items){
             this.options1Items = options1Items;
@@ -190,12 +270,6 @@ public class ItemClickPopupStyle extends BaseItemStyle<String>{
             this.label = label;
             return this;
         }
-
-        public Builder setSelected(String selected) {
-            this.selected = selected;
-            return this;
-        }
-
 
         public Builder setDialogActionListener(DialogActionListener actionListener){
             this.actionListener = actionListener;

@@ -35,7 +35,6 @@ public class ItemClickListStyle extends BaseItemStyle<List<TextBean>>{
         this.isSingleChoice = builder.isSingleChoice;
     }
 
-
     @Override
     public int getItemLayoutRes() {
         return R.layout.item_click_list_style;
@@ -79,6 +78,7 @@ public class ItemClickListStyle extends BaseItemStyle<List<TextBean>>{
      */
     public static class Builder{
         private String label;
+        //选项数据
         private List<TextBean> selectedList;
         private boolean isShowAllSelect = true;
         private boolean isShowSelectList = false;

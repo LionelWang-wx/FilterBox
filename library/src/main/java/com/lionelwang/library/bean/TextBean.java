@@ -8,15 +8,35 @@ import com.contrarywind.interfaces.IPickerViewData;
 public class TextBean implements IPickerViewData {
     String id;
     String text;
+    //是否选中
     boolean isSelected;
+    //标签
+    String type;
 
-    public TextBean() {
+    public TextBean(){
+
     }
+
 
     public TextBean(String id, String text, boolean isSelected) {
         this.id = id;
         this.text = text;
         this.isSelected = isSelected;
+    }
+
+    public TextBean(String id, String text, boolean isSelected, String type) {
+        this.id = id;
+        this.text = text;
+        this.isSelected = isSelected;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public boolean isSelected() {

@@ -1,6 +1,7 @@
 package com.lionelwang.library.style.mainstyle;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -49,21 +50,27 @@ public class DefaultStyle implements BaseMainStyle{
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             adapter = new com.lionelwang.library.base.BaseAdapter(context,itemStyles);
             recyclerView.setAdapter(adapter);
-            titleView.setText(title);
+            //设置主标题
+            if (TextUtils.isEmpty(title)){
+                titleView.setVisibility(View.GONE);
+            }else {
+                titleView.setText(title);
+            }
+
             //重置
             reset.setOnClickListener(v ->{
                 for (BaseItemStyle itemStyle : itemStyles){
                     itemStyle.clearSelectedItem();
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
             });
             //确认
             sure.setOnClickListener(v -> {
                 Map<String,Object> data = new HashMap<>();
                 for(BaseItemStyle itemStyle : itemStyles){
                     data.put(itemStyle.getItemLabel(), itemStyle.getItemStyleData());
-                    callback.selected(data);
                 }
+                callback.selected(data);
             });
         }
     }
@@ -77,6 +84,13 @@ public class DefaultStyle implements BaseMainStyle{
         return layoutView;
     }
 
+    /**
+     * 获取主适配器
+     * @return
+     */
+    public void refreshAdapter(){
+        adapter.notifyDataSetChanged();
+    }
 
     public static class Builder{
         private List<BaseItemStyle> itemStyles;

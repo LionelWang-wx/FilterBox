@@ -3,11 +3,11 @@ package com.lionelwang.filterbox;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import com.lionelwang.library.base.BaseItemStyle;
-import com.lionelwang.library.bean.JsonBean;
 import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.DialogActionListener;
+import com.lionelwang.library.click.SelectedCallBack;
+import com.lionelwang.library.click.SelectedListener;
 import com.lionelwang.library.click.SlideListener;
 import com.lionelwang.library.factory.mainfactory.PopupFilterBoxFactory;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
@@ -15,18 +15,17 @@ import com.lionelwang.library.style.itemstyle.ItemClickListStyle;
 import com.lionelwang.library.style.itemstyle.ItemClickPopupStyle;
 import com.lionelwang.library.style.mainstyle.DefaultStyle;
 import com.lionelwang.library.utils.ToastUtil;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView tv_action;
+    TextView tv_dialog;
     PopupFilterBoxFactory factory;
     //第一列(三级联动的情况第二列、第三列需要通过第一列数据组装而成)
-    private List<JsonBean> options1Items = new ArrayList<>();
+    private List<TextBean> options1Items = new ArrayList<>();
     //第二列
     private List<List<TextBean>> options2Items = new ArrayList<>();
     //第三列
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ToastUtil.init(this);
         tv_action = this.findViewById(R.id.tv_action);
+        tv_dialog = this.findViewById(R.id.tv_dialog);
         initData();
         tv_action.setOnClickListener(v -> {
 
@@ -61,27 +61,24 @@ public class MainActivity extends AppCompatActivity {
                     .setSelectedList(strList)
                     .setShowSelectList(true)
                     .build(this));
-
             itemStyles.add(new ItemClickPopupStyle.Builder()
                     .setLabel("生源地")
-                    .setDialogMode(DialogMode.THREE_LINKAGE_MODE)
-                    .setSelected("四川省")
-                    .setSlideListener(new SlideListener(){
-                        @Override
-                        public void onSlideChange(Object data) {
-                            ToastUtil.show("数据");
-                            if(data instanceof JsonBean){
-                                ((JsonBean)data).getId();
-                                //请求数据
+                    .setDialogMode(DialogMode.SINGLE_LEVEL_MODE)
+                    //设置副弹窗的确认监听
+
+                    //三级联动滑动item监听
+                    .setSlideListener((SlideListener<TextBean>) data -> {
+                        ToastUtil.show("数据");
+                        switch(data.getType()){
+                            case "省":
                                 ToastUtil.show("请求省数据");
-                            }else if(data instanceof TextBean){
-                                ((TextBean)data).getId();
-                                //请求数据
+                                break;
+                            case "市":
                                 ToastUtil.show("请求市数据");
-                            }
+                                break;
                         }
                     })
-                    //当前弹窗不是主弹窗时需要设置DialogActionListener
+                    //当前弹窗不是主弹窗时需要设置DialogActionListener  控制主弹窗与副弹窗的交互
                     .setDialogActionListener(new DialogActionListener(){
                         @Override
                         public void show() {
@@ -98,117 +95,69 @@ public class MainActivity extends AppCompatActivity {
                             factory.hide();
                         }
                     })
+                    .setSelectedListener(new SelectedListener<TextBean>(){
+                        @Override
+                        public void onSelected(TextBean data){
+                            ToastUtil.show("确认监听"+data.getText());
+                        }
+                    })
                     .setLinkageCompleteData(false)
-                    .setOptionsItems(options1Items,options2Items,options3Items)
+                    .setShowAllSelect(true)//是否展示全部选项
+                    .setTitleName("请选择生源地")//副弹窗标题
+                    .setNOptionsItems(options1Items)
+//                    .setOptionsItems(options1Items,options2Items,options3Items)
                     .build(this));
 
             //1.先创建主容器样式
-            //2.在将样式View传到主容器模式中显示
-            DefaultStyle defaultStyle = new DefaultStyle.Builder()
-                    .setTitle("默认弹窗样式")
-                    .setItemStyles(itemStyles)
-                    .setCallback(selectedList -> {
-                         //确认选中回调
-                         List<TextBean> bList = (List<TextBean>) selectedList.get("性别");
-                         ToastUtil.show(bList.get(2).getText());
-                        factory.dismiss();
-                    })
-                    .build(this);
+            //2.在将样式传到主容器模式中显示
             factory = new PopupFilterBoxFactory.Builder()
-                    .setLayoutView(defaultStyle.getLayoutView())
+                    //这里传入主样式 可使用默认样式DefaultStyle
+                    .setMainStyle(new DefaultStyle.Builder()
+                            .setTitle("主样式标题")//主样式标题
+                            .setItemStyles(itemStyles)//主样式的item样式
+                            //选择确认,数据回调
+                            .setCallback(new SelectedCallBack<List<TextBean>>(){
+                                @Override
+                                public void selected(Map<String,List<TextBean>> selectedList){
+                                    //确认选中回调
+                                    //通过key获取对应的数据
+                                    List<TextBean> sexList = selectedList.get("性别");
+                                    ToastUtil.show(sexList.get(2).getText());
+                                }
+                            })
+                            .build(this))
                     .build(this)
                     .show();
         });
-
     }
 
     private void initData() {
-        //省市区三级联动
-        List<JsonBean.CityBean> cityBeanList = new ArrayList<>();
-        JsonBean jsonBean = new JsonBean();
-        jsonBean.setId("1");
-        jsonBean.setName("四川");
-        JsonBean.CityBean cityBean = new JsonBean.CityBean();
-        cityBean.setId("1");
-        cityBean.setName("成都");
-        //下面所有区添加到成都市
-        List<TextBean> area = new ArrayList<>();
-        area.add(new TextBean("1","锦江",false));
-        area.add(new TextBean("2","金牛",false));
-        area.add(new TextBean("3","高兴",false));
-        cityBean.setArea(area);
+        /**
+         * 测试
+         */
+        options1Items.add(new TextBean("1","四川",false,"省"));
 
-        JsonBean.CityBean cityBean2 = new JsonBean.CityBean();
-        cityBean2.setId("2");
-        cityBean2.setName("广元");
-        List<TextBean> a = new ArrayList<>();
-        a.add(new TextBean("","",false));
-        cityBean2.setArea(a);
+        //四川省
+        List<TextBean> itemCList = new ArrayList<>();
+        itemCList.add(new TextBean("1","广元",false,"市"));
+        itemCList.add(new TextBean("2","成都",false,"市"));
+        itemCList.add(new TextBean("3","绵阳",false,"市"));
+        options2Items.add(itemCList);
 
-        cityBeanList.add(cityBean);
-        cityBeanList.add(cityBean2);
-        jsonBean.setCityList(cityBeanList);
-       //添加省
-        List<JsonBean.CityBean> cityBeanList1 = new ArrayList<>();
-        JsonBean jsonBean1 = new JsonBean();
-        jsonBean1.setId("2");
-        jsonBean1.setName("湖南");
-        JsonBean.CityBean cityBean1 = new JsonBean.CityBean();
-        cityBean1.setId("");
-        cityBean1.setName("");
-        List<TextBean> area1 = new ArrayList<>();
-        area1.add(new TextBean("","",false));
-        cityBean1.setArea(area1);
-//        JsonBean.CityBean cityBean1 = new JsonBean.CityBean();
-//        cityBean1.setName("北京");
-//        List<String> area1 = new ArrayList<>();
-//        area1.add("朝阳");
-//        area1.add("大兴");
-//        area1.add("通州");
-//        cityBean1.setArea(area1);
-//        cityBeanList1.add(cityBean1);
-        cityBeanList1.add(cityBean1);
-        jsonBean1.setCityList(cityBeanList1);
-        options1Items.add(jsonBean);
-        options1Items.add(jsonBean1);
-        for(int i = 0; i < options1Items.size(); i++){//遍历省份
-            ArrayList<TextBean> cityList = new ArrayList<>();//该省的城市列表（第二级）
-            List<List<TextBean>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-            ArrayList<TextBean> city_AreaList = new ArrayList<>();//该城市的所有地区列表
-            for (int c = 0; c < options1Items.get(i).getCityList().size(); c++){//遍历该省份的所有城市
-//                if (options1Items.get(i).getCityList().size() ==0 ||
-//                        options1Items.get(i).getCityList().get(c) == null){
-//                    cityList.add(new TextBean("","",false));//添加城市
-//                    city_AreaList.add(new TextBean("","",false));//添加区
-//                }else{
-                    String id = options1Items.get(i).getCityList().get(c).getId();
-                    String cityName = options1Items.get(i).getCityList().get(c).getName();
-                    cityList.add(new TextBean(id,cityName,false));//添加城市
-                    //如果无地区数据,建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                    if (options1Items.get(i).getCityList().get(c).getArea().get(0).getId().equals("")
-                            || options1Items.get(i).getCityList().get(c).getArea().get(0).getId().equals("")) {
-                        city_AreaList.add(new TextBean("","",false));
-                    } else {
-                        city_AreaList.addAll(options1Items.get(i).getCityList().get(c).getArea());
-                    }
-//                }
-//                    city_AreaList.addAll(options1Items.get(i).getCityList().get(c).getArea());
-                    province_AreaList.add(city_AreaList);//添加该省所有地区数据
-            }
+        List<List<TextBean>> gyiAList = new ArrayList<>();
+        //广元
+        List<TextBean> gyAList = new ArrayList<>();
+        gyAList.add(new TextBean("1","利州区",false,"区"));
+        gyAList.add(new TextBean("2","昭化区",false,"区"));
+        gyAList.add(new TextBean("3","剑阁区",false,"区"));
+        //成都
+        List<TextBean> cdAList = new ArrayList<>();
+        cdAList.add(new TextBean("1","高新区",false,"区"));
+        cdAList.add(new TextBean("2","武侯区",false,"区"));
+        cdAList.add(new TextBean("3","锦江区",false,"区"));
 
-            /**
-             * 添加城市数据
-             */
-            options2Items.add(cityList);
-
-            /**
-             * 添加地区数据
-             */
-            options3Items.add(province_AreaList);
-        }
-//        nOptions1Items.add(new TextBean(0,"四川0",false));
-//        nOptions1Items.add(new TextBean(1,"四川1",false));
-//        nOptions1Items.add(new TextBean(2,"四川2",false));
-//        nOptions1Items.add(new TextBean(3,"四川3",false));
+        gyiAList.add(gyAList);
+        gyiAList.add(cdAList);
+        options3Items.add(gyiAList);
     }
 }

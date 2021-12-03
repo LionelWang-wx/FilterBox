@@ -7,7 +7,12 @@ import android.view.View;
  */
 public interface BaseMainStyle{
 
+       /**
+        * 创建MainStyle
+        */
        void createStyle();
-
+       /**
+        * 获取布局View
+        */
        View getLayoutView();
 }
