@@ -16,7 +16,6 @@ import com.lionelwang.library.click.SelectedListener;
 import com.lionelwang.library.click.SlideListener;
 import com.lionelwang.library.dialog.DialogManager;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
-import com.lionelwang.library.style.itemstyle.ItemClickPopupStyle;
 import com.lionelwang.library.utils.DataUtils;
 
 import java.util.List;
@@ -61,6 +60,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
     private SelectedListener selectedListener;
     //弹窗标题
     private String titleName;
+
 
     public ItemClickPopupViewHolder(@NonNull View itemView, Context context, Builder builder) {
         super(itemView);
@@ -176,12 +176,12 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
                                             TextUtils.isEmpty(options2Items.get(position1).get(position2).getText())) {
                                         //情况二：第二个item数据为空 滑动的为第一列
                                         if (slideListener != null)
-                                        slideListener.onSlideChange(options1Items.get(position1));
+                                        slideListener.onSlideChange(options1Items.get(position1),position1,position2,position3);
                                     } else if (TextUtils.isEmpty(options3Items.get(position1).get(position2).get(position3).getId()) &&
                                             TextUtils.isEmpty(options3Items.get(position1).get(position2).get(position3).getText())) {
                                         //情况一：第三个item数据为空 滑动的为第二列
                                         if (slideListener != null)
-                                        slideListener.onSlideChange(options2Items.get(position1).get(position2));
+                                        slideListener.onSlideChange(options2Items.get(position1).get(position2),position1,position2,position3);
                                     }
                                 }
                                 break;
@@ -197,6 +197,14 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
     private void initView(View itemView) {
         labelView = itemView.findViewById(R.id.popup_label);
         selectorView = itemView.findViewById(R.id.popup_selector);
+    }
+
+    /**
+     * 刷新
+     * @return
+     */
+    public void refresh(int option1,int option2,int option3){
+        manager.refresh(option1,option2,option3);
     }
 
     public static class Builder {

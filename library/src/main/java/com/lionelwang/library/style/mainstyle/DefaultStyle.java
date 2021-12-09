@@ -5,16 +5,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.lionelwang.library.R;
 import com.lionelwang.library.base.BaseAdapter;
 import com.lionelwang.library.base.BaseItemStyle;
 import com.lionelwang.library.base.BaseMainStyle;
-import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.SelectedCallBack;
-import com.lionelwang.library.style.itemstyle.ItemClickListStyle;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

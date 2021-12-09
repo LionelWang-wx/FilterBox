@@ -63,19 +63,20 @@ public class MainActivity extends AppCompatActivity {
                     .build(this));
             itemStyles.add(new ItemClickPopupStyle.Builder()
                     .setLabel("生源地")
-                    .setDialogMode(DialogMode.SINGLE_LEVEL_MODE)
+                    .setDialogMode(DialogMode.THREE_LINKAGE_MODE)
                     //设置副弹窗的确认监听
-
                     //三级联动滑动item监听
-                    .setSlideListener((SlideListener<TextBean>) data -> {
-                        ToastUtil.show("数据");
-                        switch(data.getType()){
-                            case "省":
-                                ToastUtil.show("请求省数据");
-                                break;
-                            case "市":
-                                ToastUtil.show("请求市数据");
-                                break;
+                    .setSlideListener(new SlideListener<TextBean>() {
+                        @Override
+                        public void onSlideChange(TextBean data, int options1, int options2, int options3) {
+                            switch(data.getType()){
+                                case "省":
+                                    ToastUtil.show("请求省数据");
+                                    break;
+                                case "市":
+                                    ToastUtil.show("请求市数据");
+                                    break;
+                            }
                         }
                     })
                     //当前弹窗不是主弹窗时需要设置DialogActionListener  控制主弹窗与副弹窗的交互
@@ -104,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     .setLinkageCompleteData(false)
                     .setShowAllSelect(true)//是否展示全部选项
                     .setTitleName("请选择生源地")//副弹窗标题
-                    .setNOptionsItems(options1Items)
-//                    .setOptionsItems(options1Items,options2Items,options3Items)
+//                    .setNOptionsItems(options1Items)
+                    .setOptionsItems(options1Items,options2Items,options3Items)
                     .build(this));
 
             //1.先创建主容器样式

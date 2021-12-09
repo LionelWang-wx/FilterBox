@@ -1,7 +1,5 @@
 package com.lionelwang.library.dialog;
 
-import static com.lionelwang.library.mode.dialogmode.DialogMode.SINGLE_BAR_MODE;
-
 import android.content.Context;
 
 import com.lionelwang.library.base.BaseDialog;

@@ -7,7 +7,6 @@ import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.DialogActionListener;
 import com.lionelwang.library.click.DialogSelectedListener;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
-import com.lionelwang.library.viewholder.ItemClickPopupViewHolder;
 
 import java.util.List;
 
@@ -91,6 +90,14 @@ public class DialogManager{
         }
     }
 
+
+    /**
+     * 刷新弹窗
+     * @return
+     */
+    public void refresh(int option1,int option2,int option3){
+        pickerDialog.refresh(option1,option2,option3);
+    }
     //根据弹窗模式,打开不同样式的弹窗
     public DialogManager show(){
         switch (dialogMode){

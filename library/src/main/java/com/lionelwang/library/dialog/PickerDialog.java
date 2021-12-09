@@ -2,6 +2,7 @@ package com.lionelwang.library.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -40,6 +41,8 @@ public class PickerDialog extends BaseDialog {
     private List<TextBean> nOptions3Items;
     //选择器
     private OptionsPickerView pvOptions;
+    //选择器Builder
+    private OptionsPickerBuilder pvOptionsBuilder;
     //弹窗选择回调
     private DialogSelectedListener selectedListener;
     //弹窗操作指令
@@ -85,7 +88,7 @@ public class PickerDialog extends BaseDialog {
      */
     private void initPickerView() {
         //弹出选择
-        pvOptions = new OptionsPickerBuilder(context, new OnOptionsSelectListener() {
+        pvOptionsBuilder = new OptionsPickerBuilder(context, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 //这里是确认监听
@@ -95,19 +98,21 @@ public class PickerDialog extends BaseDialog {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜
                 .setContentTextSize(20)
-                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
+                .setSelectOptions(0,0,0)//设置默认选中
+                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener(){
                     @Override
-                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
+                    public void onOptionsSelectChanged(int options1, int options2, int options3){
                         //item滑动监听
 //                        0=1=0
 //                        四川-广元-
 //                        0=0=0
 //                        四川-成都-锦江
                         //options无法区分
+//                        Log.e("TAG","options1 = "+options1);
                         selectedListener.onSelectChanged(options1, options2, options3, dialogMode, isLinkageCompleteData);
                     }
-                })
-                .build();
+                });
+        pvOptions = pvOptionsBuilder.build();
 
         pvOptions.setOnDismissListener(new OnDismissListener(){
             @Override
@@ -118,7 +123,7 @@ public class PickerDialog extends BaseDialog {
                 }
             }
         });
-        switch (dialogMode) {
+        switch (dialogMode){
             case SINGLE_LEVEL_MODE:
                 if (isShowAllSelect) {
                     nOptions1Items.add(0, new TextBean("0", "全部", false));
@@ -204,7 +209,7 @@ public class PickerDialog extends BaseDialog {
     private PickerDialog threeLinkageDialog() {
         if (DataUtils.isEmpty(options1Items) &&
                 DataUtils.isEmpty(options2Items) &&
-                DataUtils.isEmpty(options3Items)) {
+                DataUtils.isEmpty(options3Items)){
             ToastUtil.show("三级联动无数据");
             return this;
         }
@@ -215,6 +220,15 @@ public class PickerDialog extends BaseDialog {
         return this;
     }
 
+    /**
+     * 刷新
+     * 先设置选中位置,在设置数据
+     */
+    public void refresh(int option1,int option2,int option3){
+        pvOptionsBuilder.setSelectOptions(option1,option2,option3);
+        pvOptions.setPicker(options1Items, options2Items, options3Items);
+        Log.e("option","option1="+option1+"    option2="+option2+"  option3="+option3);
+    }
 
     public static class Builder {
         //第一列

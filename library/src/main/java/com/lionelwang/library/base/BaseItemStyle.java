@@ -2,11 +2,6 @@ package com.lionelwang.library.base;
 
 import android.view.View;
 
-import com.lionelwang.library.bean.TextBean;
-
-import java.util.List;
-import java.util.Map;
-
 /**
  *
  */
@@ -17,4 +12,5 @@ public abstract class BaseItemStyle<T> {
     public abstract T getItemStyleData();
     public abstract String getItemLabel();
     public abstract void clearSelectedItem();
+
 }

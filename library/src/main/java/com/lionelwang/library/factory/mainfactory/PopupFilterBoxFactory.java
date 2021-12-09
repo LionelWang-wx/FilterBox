@@ -1,12 +1,7 @@
 package com.lionelwang.library.factory.mainfactory;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-
-import com.lionelwang.library.R;
 import com.lionelwang.library.base.BaseFilterBoxFactory;
-import com.lionelwang.library.base.BaseMainMode;
 import com.lionelwang.library.base.BaseMainStyle;
 import com.lionelwang.library.mode.mainmode.PopupMode;
 

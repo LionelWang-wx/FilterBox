@@ -51,6 +51,7 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
     private SelectedListener selectedListener;
     //弹窗标题
     private String titleName;
+    private ItemClickPopupViewHolder viewHolder;
 
 
     public ItemClickPopupStyle(Context context,Builder builder){
@@ -83,7 +84,14 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
     @Override
     public BaseViewHolder getItemViewHolder(View view){
-        return new ItemClickPopupViewHolder.Builder()
+        if (viewHolder == null){
+            initViewHolder(view);
+        }
+        return viewHolder;
+    }
+
+    private void initViewHolder(View view) {
+        viewHolder = new ItemClickPopupViewHolder.Builder()
                 .setLabel(label)
                 .setResultSelectedList(resultSelectedList)
                 .setDialogMode(dialogMode)
@@ -161,6 +169,13 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
                 break;
         }
+    }
+
+    /**
+     * 刷新联动弹窗
+     */
+    public void refresh(int option1,int option2,int option3) {
+        viewHolder.refresh(option1,option2,option3);
     }
 
 

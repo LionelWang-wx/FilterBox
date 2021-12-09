@@ -26,3 +26,5 @@ private boolean isShowSelectList;
 //添加弹窗选中数据传递
 //添加外部主弹窗刷新功能
 
+//三级联动不完整数据传入,滑动切换数据
+
