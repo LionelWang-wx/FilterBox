@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * item的点击
  */
-public interface OnItemClickListener<T> {
+public interface OnItemClickListener{
 
-    void onItemClick(List<T> positions);
+    void onItemClick(int positions);
 }

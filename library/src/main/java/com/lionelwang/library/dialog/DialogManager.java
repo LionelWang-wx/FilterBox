@@ -6,7 +6,9 @@ import android.content.Context;
 import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.DialogActionListener;
 import com.lionelwang.library.click.DialogSelectedListener;
+import com.lionelwang.library.click.SelectedListener;
 import com.lionelwang.library.mode.dialogmode.DialogMode;
+import com.lionelwang.library.viewholder.ItemClickPopupViewHolder;
 
 import java.util.List;
 
@@ -44,6 +46,11 @@ public class DialogManager{
     private boolean isShowAllSelect;
     //弹窗标题
     private String titleName;
+    //bar标题栏
+    private List<TextBean> barTitles;
+    //多级选择内容
+    private List<TextBean> contents;
+    private SelectedListener listener;
 
     public DialogManager(Context context,Builder builder){
         this.context = context;
@@ -63,10 +70,14 @@ public class DialogManager{
         this.dialogMode = builder.dialogMode;
 
         this.isLinkageCompleteData = builder.isLinkageCompleteData;
+
+        this.barTitles = builder.barTitles;
+        this.contents = builder.contents;
+        this.listener = builder.listener;
         initData();
     }
 
-    private void initData() {
+    private void initData(){
         switch (dialogMode){
             case SINGLE_LEVEL_MODE:
             case THREE_LEVEL_MODE:
@@ -85,6 +96,12 @@ public class DialogManager{
                 break;
             case SINGLE_BAR_MODE:
                 barSingleDialog = new BarSingleDialog.Builder()
+                        .setSelectedListener(listener)
+                        .setDialogMode(dialogMode)
+                        .setTitle(titleName)
+                        .setBarTitles(barTitles)
+                        .setContents(contents)
+                        .setShowAllSelect(isShowAllSelect)
                         .build(context);
                 break;
         }
@@ -96,7 +113,9 @@ public class DialogManager{
      * @return
      */
     public void refresh(int option1,int option2,int option3){
+        if (pickerDialog != null)
         pickerDialog.refresh(option1,option2,option3);
+
     }
     //根据弹窗模式,打开不同样式的弹窗
     public DialogManager show(){
@@ -146,6 +165,16 @@ public class DialogManager{
         private boolean isShowAllSelect;
         //弹窗标题
         private String titleName;
+        //bar标题栏
+        private List<TextBean> barTitles;
+        //多级选择内容
+        private List<TextBean> contents;
+        private SelectedListener listener;
+
+        public Builder setSelectedListener(SelectedListener selectedListener) {
+            this.listener = selectedListener;
+            return this;
+        }
 
         public Builder setTitleName(String titleName) {
             this.titleName = titleName;
@@ -216,6 +245,16 @@ public class DialogManager{
 
         public Builder setDialogActionListener(DialogActionListener actionListener){
             this.actionListener = actionListener;
+            return this;
+        }
+
+        public Builder setBarTitles(List<TextBean> barTitles){
+            this.barTitles = barTitles;
+            return this;
+        }
+
+        public Builder setContents(List<TextBean> contents){
+            this.contents = contents;
             return this;
         }
 

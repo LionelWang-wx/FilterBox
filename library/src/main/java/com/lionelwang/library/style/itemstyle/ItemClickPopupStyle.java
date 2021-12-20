@@ -52,6 +52,10 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
     //弹窗标题
     private String titleName;
     private ItemClickPopupViewHolder viewHolder;
+    //bar标题栏
+    private List<TextBean> barTitles;
+    //多级选择内容
+    private List<TextBean> contents;
 
 
     public ItemClickPopupStyle(Context context,Builder builder){
@@ -75,6 +79,9 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
         this.resultSelectedList = builder.resultSelectedList;
 
         this.dialogMode = builder.dialogMode;
+
+        this.barTitles = builder.barTitles;
+        this.contents = builder.contents;
     }
 
     @Override
@@ -92,6 +99,8 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
     private void initViewHolder(View view) {
         viewHolder = new ItemClickPopupViewHolder.Builder()
+                .setBarTitles(barTitles)
+                .setContents(contents)
                 .setLabel(label)
                 .setResultSelectedList(resultSelectedList)
                 .setDialogMode(dialogMode)
@@ -114,7 +123,7 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
     @Override
     public List<TextBean> getItemStyleData() {
-        return resultSelectedList;
+        return viewHolder.getItemStyleData();
     }
 
     @Override
@@ -211,6 +220,10 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
         private String titleName;
         //设置选中数据 默认内部生成,非必传
         private List<TextBean> resultSelectedList = new ArrayList<>();
+        //bar标题栏
+        private List<TextBean> barTitles;
+        //多级选择内容
+        private List<TextBean> contents;
 
         public Builder setResultSelectedList(List<TextBean> resultSelectedList) {
             this.resultSelectedList = resultSelectedList;
@@ -293,6 +306,16 @@ public class ItemClickPopupStyle extends BaseItemStyle<List<TextBean>>{
 
         public Builder setSlideListener(SlideListener slideListener){
             this.slideListener = slideListener;
+            return this;
+        }
+
+        public Builder setBarTitles(List<TextBean> barTitles){
+            this.barTitles = barTitles;
+            return this;
+        }
+
+        public Builder setContents(List<TextBean> contents){
+            this.contents = contents;
             return this;
         }
 

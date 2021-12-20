@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lionelwang.library.R;
 import com.lionelwang.library.base.BaseViewHolder;
 import com.lionelwang.library.bean.TextBean;
-import com.lionelwang.library.click.OnItemClickListener;
 import com.lionelwang.library.item.itemadpter.FilterClickListAdapter;
-import com.lionelwang.library.style.itemstyle.ItemClickListStyle;
 import com.lionelwang.library.utils.DataUtils;
 import com.lionelwang.library.utils.ToastUtil;
 
@@ -28,7 +26,7 @@ import java.util.Map;
 /**
  * 点击列表item样式的ViewHolder
  */
-public class ItemClickListViewHolder extends BaseViewHolder{
+public class ItemClickListViewHolder extends BaseViewHolder<List<TextBean>>{
     private RelativeLayout bar;
     private TextView tv_label;
     private ImageView iconOrientation;
@@ -64,7 +62,7 @@ public class ItemClickListViewHolder extends BaseViewHolder{
     }
 
     @Override
-    public void bindViewHolder(BaseViewHolder holder){
+    public void bindViewHolder(BaseViewHolder holder,int position){
         if(holder instanceof ItemClickListViewHolder){
             ((ItemClickListViewHolder)holder).tv_label.setText(label);
             //设置点击Bar展示Item
@@ -98,6 +96,11 @@ public class ItemClickListViewHolder extends BaseViewHolder{
                 ToastUtil.show("无数据");
             }
         }
+    }
+
+    @Override
+    public List<TextBean> getItemStyleData() {
+        return selectedList;
     }
 
     private void initView(View itemView){

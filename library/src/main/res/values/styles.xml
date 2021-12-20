@@ -18,9 +18,17 @@
         <item name="android:windowExitAnimation">@anim/anim_bottom_out</item>
     </style>
 
+    <!--TabLayout属性设置-->
+    <style name="Tab" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/app_gray</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
-<!--    <style name="WheelStyleDemo">-->
+
+
+    <!--    <style name="WheelStyleDemo">-->
 <!--        <item name="wheel_itemTextColor">@android:color/holo_green_dark</item>-->
 <!--        <item name="wheel_itemTextColorSelected">@android:color/holo_green_light</item>-->
 <!--        <item name="wheel_itemTextSize">20sp</item>-->

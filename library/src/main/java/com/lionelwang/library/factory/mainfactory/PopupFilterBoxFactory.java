@@ -8,7 +8,7 @@ import com.lionelwang.library.mode.mainmode.PopupMode;
 /**
  * 主容器Factory：弹窗实现工厂
  */
-public class PopupFilterBoxFactory extends BaseFilterBoxFactory {
+public class PopupFilterBoxFactory extends BaseFilterBoxFactory{
 
     private Context context;
     private PopupMode popupMode;
@@ -16,6 +16,7 @@ public class PopupFilterBoxFactory extends BaseFilterBoxFactory {
     private BaseMainStyle mainStyle;
 
     public PopupFilterBoxFactory(Context context,Builder builder){
+           super();
            this.context = context;
            this.mainStyle = builder.mainStyle;
            this.getMainMode();

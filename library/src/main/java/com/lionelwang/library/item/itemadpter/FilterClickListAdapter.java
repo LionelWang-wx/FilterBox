@@ -12,12 +12,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import com.lionelwang.library.R;
 import com.lionelwang.library.bean.TextBean;
-import com.lionelwang.library.click.OnItemClickListener;
-import com.lionelwang.library.utils.DataUtils;
-import com.lionelwang.library.viewholder.ItemClickListViewHolder;
-
 import java.util.List;
-import java.util.Map;
 
 public class FilterClickListAdapter extends RecyclerView.Adapter<FilterClickListAdapter.FilterClickListViewHolder>{
 

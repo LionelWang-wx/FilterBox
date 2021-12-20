@@ -25,6 +25,7 @@ public class ItemClickListStyle extends BaseItemStyle<List<TextBean>>{
     //item是否展示选项列表 默认false
     private boolean isShowSelectList;
     private boolean isSingleChoice;
+    private ItemClickListViewHolder viewHolder;
 
     public ItemClickListStyle(Context context,Builder builder) {
         this.context = context;
@@ -42,7 +43,7 @@ public class ItemClickListStyle extends BaseItemStyle<List<TextBean>>{
 
     @Override
     public BaseViewHolder getItemViewHolder(View view){
-        return new ItemClickListViewHolder.Builder()
+        return viewHolder = new ItemClickListViewHolder.Builder()
                 .setLabel(label)
                 .setSelectedList(selectedList)
                 .setShowSelectList(isShowSelectList)
@@ -58,7 +59,7 @@ public class ItemClickListStyle extends BaseItemStyle<List<TextBean>>{
 
     @Override
     public List<TextBean> getItemStyleData(){
-        return selectedList;
+        return viewHolder.getItemStyleData();
     }
 
     @Override

@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * 主容器默认样式:layout_base_popup
+ * 检索
  */
 public class DefaultStyle implements BaseMainStyle{
     
@@ -68,7 +69,7 @@ public class DefaultStyle implements BaseMainStyle{
             sure.setOnClickListener(v -> {
                 Map<String,Object> data = new HashMap<>();
                 for(BaseItemStyle itemStyle : itemStyles){
-                    data.put(itemStyle.getItemLabel(), itemStyle.getItemStyleData());
+                    data.put(itemStyle.getItemLabel(),itemStyle.getItemStyleData());
                 }
                 callback.selected(data);
             });

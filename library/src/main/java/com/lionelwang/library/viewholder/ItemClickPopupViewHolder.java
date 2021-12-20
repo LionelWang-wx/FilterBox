@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 点击弹出二级弹窗
  */
-public class ItemClickPopupViewHolder extends BaseViewHolder {
+public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
 
     private TextView labelView;
     private TextView selectorView;
@@ -60,9 +60,13 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
     private SelectedListener selectedListener;
     //弹窗标题
     private String titleName;
+    //bar标题栏
+    private List<TextBean> barTitles;
+    //多级选择内容
+    private List<TextBean> contents;
 
 
-    public ItemClickPopupViewHolder(@NonNull View itemView, Context context, Builder builder) {
+    public ItemClickPopupViewHolder(@NonNull View itemView, Context context, Builder builder){
         super(itemView);
         initView(itemView);
         this.context = context;
@@ -85,10 +89,13 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
         this.titleName = builder.titleName;
 
         this.dialogMode = builder.dialogMode;
+
+        this.barTitles = builder.barTitles;
+        this.contents = builder.contents;
     }
 
     @Override
-    public void bindViewHolder(BaseViewHolder holder) {
+    public void bindViewHolder(BaseViewHolder holder,int position) {
         if (holder instanceof ItemClickPopupViewHolder) {
             //设置标签
             labelView.setText(label);
@@ -119,8 +126,15 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
         }
     }
 
+    @Override
+    public List<TextBean> getItemStyleData() {
+        return resultSelectedList;
+    }
+
     private void initDialogManager() {
         manager = new DialogManager.Builder()
+                .setBarTitles(barTitles)
+                .setContents(contents)
                 .setDialogMode(dialogMode)
                 .setNOptionsItems(nOptions1Items)
                 .setNOptionsItems(nOptions1Items, nOptions2Items, nOptions3Items)
@@ -129,6 +143,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
                 .setShowAllSelect(isShowAllSelect)
                 .setTitleName(titleName)
                 .setLinkageCompleteData(isLinkageCompleteData)
+                .setSelectedListener(selectedListener)
                 .setDialogSelectedListener(new DialogSelectedListener() {
                     @Override
                     public void onDialogSelect(int position1, int position2, int position3, View view, DialogMode dialogMode) {
@@ -237,6 +252,10 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
         private SelectedListener selectedListener;
         //弹窗标题
         private String titleName;
+        //bar标题栏
+        private List<TextBean> barTitles;
+        //多级选择内容
+        private List<TextBean> contents;
 
         public Builder setTitleName(String titleName) {
             this.titleName = titleName;
@@ -328,6 +347,15 @@ public class ItemClickPopupViewHolder extends BaseViewHolder {
             return this;
         }
 
+        public Builder setBarTitles(List<TextBean> barTitles){
+            this.barTitles = barTitles;
+            return this;
+        }
+
+        public Builder setContents(List<TextBean> contents){
+            this.contents = contents;
+            return this;
+        }
 
         public ItemClickPopupViewHolder build(View view, Context context) {
             return new ItemClickPopupViewHolder(view, context, this);
