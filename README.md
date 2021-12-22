@@ -31,7 +31,9 @@ private boolean isShowSelectList;
 //新增关键字和自定范围两种样式
 //新增列表信息选择弹窗,实现搜索和自定义布局
 //新增仿京东选择器
+
 [![](https://jitpack.io/v/LionelWang-wx/FilterBox.svg)](https://jitpack.io/#LionelWang-wx/FilterBox)
+
 Add it in your root build.gradle at the end of repositories:
 1.
 allprojects {
@@ -40,6 +42,8 @@ allprojects {
 			maven { url 'https://jitpack.io' }
 		}
 	}
+	
+	
 2.
    dependencies {
 	        implementation 'com.github.LionelWang-wx:FilterBox:Tag'
