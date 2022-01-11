@@ -39,7 +39,7 @@ public class ItemListInfoViewHolder extends BaseViewHolder{
         if (holder instanceof ItemListInfoViewHolder){
             nameView.setText(data);
             //item监听
-            (holder).itemView.setOnClickListener(new View.OnClickListener(){
+            holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     Map<String,Object> datas = new HashMap<>();

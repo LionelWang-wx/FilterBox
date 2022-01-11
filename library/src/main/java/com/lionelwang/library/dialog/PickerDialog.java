@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnDismissListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
@@ -109,7 +112,9 @@ public class PickerDialog extends BaseDialog {
 //                        四川-成都-锦江
                         //options无法区分
 //                        Log.e("TAG","options1 = "+options1);
-                        selectedListener.onSelectChanged(options1, options2, options3, dialogMode, isLinkageCompleteData);
+                        if (!isLinkageCompleteData){
+                            selectedListener.onSelectChanged(options1, options2, options3, dialogMode, isLinkageCompleteData);
+                        }
                     }
                 });
         pvOptions = pvOptionsBuilder.build();
@@ -224,10 +229,22 @@ public class PickerDialog extends BaseDialog {
      * 刷新
      * 先设置选中位置,在设置数据
      */
-    public void refresh(int option1,int option2,int option3){
-        pvOptionsBuilder.setSelectOptions(option1,option2,option3);
-        pvOptions.setPicker(options1Items, options2Items, options3Items);
-        Log.e("option","option1="+option1+"    option2="+option2+"  option3="+option3);
+    public void refresh(@NonNull int option1, @Nullable int option2,@Nullable int option3){
+        switch (dialogMode){
+            case SINGLE_LEVEL_MODE:
+                pvOptionsBuilder.setSelectOptions(option1);
+                pvOptions.setPicker(nOptions1Items);
+                break;
+            case THREE_LEVEL_MODE:
+                pvOptionsBuilder.setSelectOptions(option1,option2,option3);
+                pvOptions.setPicker(nOptions1Items, nOptions2Items, nOptions3Items);
+                break;
+            case THREE_LINKAGE_MODE:
+                pvOptionsBuilder.setSelectOptions(option1,option2,option3);
+                pvOptions.setPicker(options1Items, options2Items, options3Items);
+//                Log.e("option","option1="+option1+"    option2="+option2+"  option3="+option3);
+                break;
+        }
     }
 
     public static class Builder {

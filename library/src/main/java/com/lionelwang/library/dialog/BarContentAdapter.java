@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lionelwang.library.R;
 import com.lionelwang.library.bean.TextBean;
 import com.lionelwang.library.click.OnItemClickListener;
+import com.lionelwang.library.click.OnItemContentClickListener;
 import com.lionelwang.library.click.SelectedListener;
 import com.lionelwang.library.utils.ToastUtil;
 
@@ -24,15 +25,13 @@ public class BarContentAdapter extends RecyclerView.Adapter<BarContentAdapter.Ba
 
     private Context context;
     private List<TextBean> contents;
-    private SelectedListener listener;
     //之前选中的Item Position
     private int oldSelectedPosition = -1;
     private OnItemClickListener itemClickListener;
 
-    public BarContentAdapter(Context context, List<TextBean> contents, SelectedListener listener){
+    public BarContentAdapter(Context context, List<TextBean> contents){
         this.context = context;
         this.contents = contents;
-        this.listener = listener;
     }
 
 
@@ -67,7 +66,6 @@ public class BarContentAdapter extends RecyclerView.Adapter<BarContentAdapter.Ba
                         contents.get(oldSelectedPosition).setSelected(false);
                     }
                 }
-                listener.onSelected(contents.get(position));
                 notifyDataSetChanged();
             }
         });

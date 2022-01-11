@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private List<TextBean> contents = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ToastUtil.init(this);
@@ -238,13 +238,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onAfterTextChanged(String changedText) {
                                         ToastUtil.show("搜索"+changedText);
-                                    }
-                                })
-                                .setSelectedListener(new SelectedListener<Integer>(){
-
-                                    @Override
-                                    public void onSelected(Integer position){
-                                        ToastUtil.show("onSelected");
                                     }
                                 })
                                 .build(MainActivity.this))

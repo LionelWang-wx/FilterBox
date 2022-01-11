@@ -1,16 +1,19 @@
 package com.lionelwang.library.viewholder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.blankj.utilcode.util.KeyboardUtils;
 import com.lionelwang.library.R;
 import com.lionelwang.library.base.BaseViewHolder;
 
@@ -46,59 +49,21 @@ public class ItemDiyRangeViewHolder extends BaseViewHolder<Map<String, String>> 
     }
 
     private void initData() {
-        minValueView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                minValue = minValueView.getText().toString();
-                if (!TextUtils.isEmpty(minValue) && !TextUtils.isEmpty(maxValue)) {
-                    //校验minValue是否大于maxValue
-                    //校验maxValue是否小于minValue
-                    //出现上述情况需要对调minValue与maxValue
-                    if (Integer.parseInt(minValue) > Integer.parseInt(maxValue)) {
-                        minValue = maxValueView.getText().toString();
-                        maxValue = minValueView.getText().toString();
-                        minValueView.setText(minValue);
-                        maxValueView.setText(maxValue);
-                    }
-                    return;
-                }
-            }
-        });
-        maxValueView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                maxValue = maxValueView.getText().toString();
-                if (!TextUtils.isEmpty(minValue) && !TextUtils.isEmpty(maxValue)) {
-                    //校验minValue是否大于maxValue
-                    //校验maxValue是否小于minValue
-                    //出现上述情况需要对调minValue与maxValue
-                    if (Integer.parseInt(minValue) > Integer.parseInt(maxValue)) {
-                        minValue = maxValueView.getText().toString();
-                        maxValue = minValueView.getText().toString();
-                        minValueView.setText(minValue);
-                        maxValueView.setText(maxValue);
-                    }
-                    return;
+        //注册软键盘的监听
+        KeyboardUtils.registerSoftInputChangedListener((Activity)context, height -> {
+            if (height > 0 && KeyboardUtils.isSoftInputVisible((Activity)context)) return;
+            //收起软键盘时,校验最大最小值
+            minValue = minValueView.getText().toString();
+            maxValue = maxValueView.getText().toString();
+            if (!TextUtils.isEmpty(minValue) && !TextUtils.isEmpty(maxValue)) {
+                //校验minValue是否大于maxValue
+                //校验maxValue是否小于minValue
+                //出现上述情况需要对调minValue与maxValue
+                if (Integer.parseInt(minValue) > Integer.parseInt(maxValue)) {
+                    minValue = maxValueView.getText().toString();
+                    maxValue = minValueView.getText().toString();
+                    minValueView.setText(minValue);
+                    maxValueView.setText(maxValue);
                 }
             }
         });

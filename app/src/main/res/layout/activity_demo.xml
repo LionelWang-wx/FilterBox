@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <!--常规弹窗-->
+    <TextView
+        android:id="@+id/tv_common_popup_info"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/shape_common_gray_white_bg"
+        android:layout_margin="15dp"
+        android:textSize="15sp"
+        android:textColor="@color/common_base_color"
+        android:gravity="center_horizontal"
+        />
+
+    <TextView
+        android:id="@+id/tv_common_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="常规筛选框"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_submit_common_bg"
+        android:layout_margin="15dp"
+        android:layout_marginTop="100dp"
+        />
+
+    <!--自定义布局弹窗-->
+    <TextView
+        android:id="@+id/tv_diy_popup_info"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="15dp"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:textColor="@color/common_base_color"
+        android:background="@drawable/shape_common_gray_white_bg"
+        />
+
+    <TextView
+        android:id="@+id/tv_diy_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自定义筛选框"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_submit_common_bg"
+        android:layout_margin="15dp"
+        android:layout_marginTop="100dp"
+        />
+
+</LinearLayout>

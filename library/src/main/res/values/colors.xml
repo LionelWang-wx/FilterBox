@@ -13,4 +13,5 @@
     <color name="picture_color_black">#000000</color>
     <color name="main_gray">#989795</color>
     <color name="app_gray">#999999</color>
+    <color name="blue">#2196F3</color>
 </resources>

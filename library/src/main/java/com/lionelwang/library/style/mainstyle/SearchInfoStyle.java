@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -45,7 +46,6 @@ public class SearchInfoStyle implements BaseMainStyle {
     private TextChangedListener textChangedListener;
     private OnRefreshAndLoadMoreListener onRefreshAndLoadMoreListener;
     private int pageIndex = 0;
-    private SelectedListener selectedListener;
 
     public SearchInfoStyle(Context context,Builder builder){
         this.context = context;
@@ -53,7 +53,6 @@ public class SearchInfoStyle implements BaseMainStyle {
         this.itemStyles = builder.itemStyles;
         this.textChangedListener = builder.textChangedListener;
         this.onRefreshAndLoadMoreListener = builder.onRefreshAndLoadMoreListener;
-        this.selectedListener = builder.selectedListener;
         this.createStyle();
     }
 
@@ -66,7 +65,7 @@ public class SearchInfoStyle implements BaseMainStyle {
             recycle = layoutView.findViewById(R.id.recycle);
             refresh = layoutView.findViewById(R.id.refresh);
             recycle.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new com.lionelwang.library.base.BaseAdapter(context,itemStyles,selectedListener);
+            adapter = new com.lionelwang.library.base.BaseAdapter(context,itemStyles);
             recycle.setAdapter(adapter);
             //设置主标题
             if(TextUtils.isEmpty(title)){
@@ -113,6 +112,22 @@ public class SearchInfoStyle implements BaseMainStyle {
         }
     }
 
+
+    /**
+     * 数据改变,刷新界面
+     */
+    public void notifyDataSetChanged(){
+        if (adapter != null)
+        adapter.notifyDataSetChanged();
+        Log.e("TAG","notifyDataSetChanged");
+    }
+
+
+    public void finishRefreshAndLoadMore(){
+        refresh.finishRefresh(500);
+        refresh.finishLoadMore(500);
+        Log.e("TAG","finishRefreshAndLoadMore");
+    }
     @Override
     public View getLayoutView() {
         return layoutView;
@@ -127,7 +142,6 @@ public class SearchInfoStyle implements BaseMainStyle {
         private TextChangedListener textChangedListener;
         private boolean isShowSearch;
         private OnRefreshAndLoadMoreListener onRefreshAndLoadMoreListener;
-        private SelectedListener selectedListener;
 
         public Builder setOnRefreshLoadMoreListener(OnRefreshAndLoadMoreListener onRefreshAndLoadMoreListener){
             this.onRefreshAndLoadMoreListener = onRefreshAndLoadMoreListener;
@@ -151,11 +165,6 @@ public class SearchInfoStyle implements BaseMainStyle {
 
         public Builder setShowSearch(boolean showSearch) {
             isShowSearch = showSearch;
-            return this;
-        }
-
-        public Builder setSelectedListener(SelectedListener selectedListener){
-            this.selectedListener = selectedListener;
             return this;
         }
 

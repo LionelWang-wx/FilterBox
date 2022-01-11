@@ -28,12 +28,6 @@ public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder>{
         this.context = context;
     }
 
-    public BaseAdapter(Context context, List<BaseItemStyle> itemStyles, SelectedListener selectedListener){
-        this.context = context;
-        this.itemStyles = itemStyles;
-        this.selectedListener = selectedListener;
-    }
-
 
     @NonNull
     @Override
@@ -48,9 +42,6 @@ public class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position){
         holder.bindViewHolder(holder,position);
-        holder.itemView.setOnClickListener(v -> {
-            selectedListener.onSelected(position);
-        });
     }
 
     @Override

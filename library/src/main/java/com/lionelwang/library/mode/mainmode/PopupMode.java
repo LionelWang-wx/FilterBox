@@ -72,6 +72,10 @@ public class PopupMode implements BaseMainMode{
      * 展示弹窗
      */
     public PopupMode show(){
+//        ImmersionBar.with((Activity) context, dialog)
+//                .navigationBarColor(R.color.white)
+//                .navigationBarDarkIcon(true, 0.2f)
+//                .init();
         dialog.show();
         return this;
     }
@@ -80,6 +84,7 @@ public class PopupMode implements BaseMainMode{
      * 隐藏弹窗
      */
     public PopupMode hide(){
+//        ImmersionBar.with((Activity) context, dialog).reset();
         dialog.hide();
         return this;
     }
@@ -87,6 +92,7 @@ public class PopupMode implements BaseMainMode{
      * 销毁弹窗
      */
     public PopupMode dismiss(){
+//        ImmersionBar.with((Activity) context, dialog).reset();
         dialog.dismiss();
         return this;
     }

@@ -99,7 +99,7 @@ public class ItemClickListViewHolder extends BaseViewHolder<List<TextBean>>{
     }
 
     @Override
-    public List<TextBean> getItemStyleData() {
+    public List<TextBean> getItemStyleData(){
         return selectedList;
     }
 

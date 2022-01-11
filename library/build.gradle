@@ -36,11 +36,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //Immersionbar
-    //基础依赖包，必须要依赖  沉浸式状态栏
+    //基础依赖包,必须要依赖  沉浸式状态栏
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
     api 'com.contrarywind:Android-PickerView:4.1.8'
     //XPopup
     api 'com.github.li-xiaojun:XPopup:2.7.1'
     //刷新控件
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    //AndroidUtilCode 工具包
+    api 'com.blankj:utilcodex:1.31.0'
 }
