@@ -48,16 +48,16 @@ public class DemoDiyImpSource extends BaseSource<BaseItemStyle> {
          * 2.不同的布局对应不同的数据
          * 3.可自己组装交叉布局
          */
-        for (int i = 0; i < nameList.size();i++){
+        for (int i = 0; i < nameList.size(); i++) {
             addItemStyle(new ItemListInfoStyle.Builder()
                     .setLabel("人员信息")//item标题
                     .setData(nameList.get(i))//item数据
                     //item选择监听
-                    .setCallBack(new SelectedCallBack<String>(){
+                    .setCallBack(new SelectedCallBack<String>() {
                         @Override
                         public void selected(Map<String, String> selectedList) {
-                                String name = selectedList.get("人员信息");
-                                ToastUtil.show(name);
+                            String name = selectedList.get("人员信息");
+                            ToastUtil.show(name);
                             EventBus.getDefault().post(name);
                             factory.dismiss();
                         }
@@ -72,11 +72,11 @@ public class DemoDiyImpSource extends BaseSource<BaseItemStyle> {
         factory = new PopupFilterBoxFactory.Builder()
                 //这里传入主样式 可使用默认样式DefaultStyle
                 .setMainStyle(new SearchInfoStyle.Builder()
-                        .setTitle("默认主样式")//主样式标题
+                        .setTitle("默认自定义主样式")//主样式标题
                         .setItemStyles(itemStyles)//设置item样式数据
                         .setShowSearch(false)//是否开启搜索功能
                         //上拉加载,下拉刷新监听
-                        .setOnRefreshLoadMoreListener(new OnRefreshAndLoadMoreListener(){
+                        .setOnRefreshLoadMoreListener(new OnRefreshAndLoadMoreListener() {
                             @Override
                             public void onRefresh(@NonNull RefreshLayout refreshLayout, int pageIndex) {
                                 ToastUtil.show("onRefresh");
@@ -90,10 +90,10 @@ public class DemoDiyImpSource extends BaseSource<BaseItemStyle> {
                             }
                         })
                         //搜索监听
-                        .setTextChangedListener(new TextChangedListener(){
+                        .setTextChangedListener(new TextChangedListener() {
                             @Override
                             public void onAfterTextChanged(String changedText) {
-                                ToastUtil.show("搜索"+changedText);
+                                ToastUtil.show("搜索" + changedText);
                             }
                         })
                         .build(context))
@@ -101,7 +101,7 @@ public class DemoDiyImpSource extends BaseSource<BaseItemStyle> {
     }
 
     //展示主弹窗
-    public void show(){
+    public void show() {
         factory.show();
     }
 

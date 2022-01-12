@@ -158,7 +158,7 @@ public class DemoImpSource extends BaseSource<BaseItemStyle> {
         deliverGoodBarContents.add(new TextBean("10", "南充", false, "内容"));
     }
 
-    private void initFactory() {
+    private void initFactory(){
         //1.先创建主容器样式
         defaultStyle = new DefaultStyle.Builder()
                 .setTitle("筛选框")//主样式标题
@@ -188,15 +188,15 @@ public class DemoImpSource extends BaseSource<BaseItemStyle> {
                             for (TextBean goodsTypeBean : goodsTypeList) {
                                 if (goodsTypeBean.isSelected()) {
                                     Log.e("TAG", "goodsType = " + goodsTypeBean.getText());
-                                    str.append(goodsTypeBean.getText()+"、");
+                                    str.append(goodsTypeBean.getText() + "、");
                                 }
                             }
-                            str.deleteCharAt(str.length()-1);
+                            str.deleteCharAt(str.length() - 1);
                             goodsTypeSelected = str.toString();
                         }
                         //民族
                         List<TextBean> nationalityList = (List<TextBean>) selectedList.get("民族");
-                        if (!DataUtils.isEmpty(nationalityList)){
+                        if (!DataUtils.isEmpty(nationalityList)) {
                             for (TextBean nationalityBean : nationalityList) {
                                 if (nationalityBean.isSelected()) {
                                     Log.e("TAG", "nationalityBean = " + nationalityBean.getText());
@@ -257,15 +257,15 @@ public class DemoImpSource extends BaseSource<BaseItemStyle> {
 
                         //组装选中数据
                         selectedDataHtml = "<html><head><h1>常用筛选框选中结果</h1></head><body>"
-                                +"<p><strong>商品名："+goodsName+"</strong></p>"
-                                +"<p><strong>价格范围："+minValue+"--"+maxValue+"</strong></p>"
-                                +"<p><strong>性别："+sexSelected+"</strong></p>"
-                                +"<p><strong>商品类型(多选)："+goodsTypeSelected+"</strong></p>"
-                                +"<p><strong>民族："+nationalitySelected+"</strong></p>"
-                                +"<p><strong>发货地址："+shipAddressSelected+"</strong></p>"
-                                +"<p><strong>中转地址："+transitAddressSelected+"</strong></p>"
-                                +"<p><strong>送货地址："+deliverGoodSelected+"</strong></p>"
-                                +"</body></html>";
+                                + "<p><strong>商品名：" + goodsName + "</strong></p>"
+                                + "<p><strong>价格范围：" + minValue + "--" + maxValue + "</strong></p>"
+                                + "<p><strong>性别：" + sexSelected + "</strong></p>"
+                                + "<p><strong>商品类型(多选)：" + goodsTypeSelected + "</strong></p>"
+                                + "<p><strong>民族：" + nationalitySelected + "</strong></p>"
+                                + "<p><strong>发货地址：" + shipAddressSelected + "</strong></p>"
+                                + "<p><strong>中转地址：" + transitAddressSelected + "</strong></p>"
+                                + "<p><strong>送货地址：" + deliverGoodSelected + "</strong></p>"
+                                + "</body></html>";
                         EventBus.getDefault().post(selectedDataHtml);
                         factory.hide();
                     }

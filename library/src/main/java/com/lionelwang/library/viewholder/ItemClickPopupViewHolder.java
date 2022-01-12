@@ -115,13 +115,13 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
                         break;
                     case SINGLE_BAR_MODE:
                         StringBuilder sb = new StringBuilder();
-                            for (int i = 0; i < resultSelectedList.size(); i++) {
-                                if (resultSelectedList.size() - 1 == i) {
-                                    sb.append(resultSelectedList.get(i).getText());
-                                } else {
-                                    sb.append(resultSelectedList.get(i).getText() + "-");
-                                }
+                        for (int i = 0; i < resultSelectedList.size(); i++) {
+                            if (resultSelectedList.size() - 1 == i) {
+                                sb.append(resultSelectedList.get(i).getText());
+                            } else {
+                                sb.append(resultSelectedList.get(i).getText() + "-");
                             }
+                        }
                         selectorView.setText(sb.toString());
                         break;
                 }
@@ -142,7 +142,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
         return resultSelectedList;
     }
 
-    private void initDialogManager(){
+    private void initDialogManager() {
         manager = new DialogManager.Builder()
                 .setBarTitles(barTitles)
                 .setContents(contents)
@@ -166,7 +166,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
                                 nOptions1Items.get(position1).setSelected(true);
                                 resultSelectedList.addAll(nOptions1Items);
                                 //记录选中的位置,再次打开弹窗直接展示上次选中的位置
-                                refresh(position1,0,0);
+                                refresh(position1, 0, 0);
 //                                //副弹窗确认回调监听
 //                                if (selectedListener != null) {
 //                                    selectedListener.onSelected(nOptions1Items.get(position1));
@@ -179,7 +179,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
                                 resultSelectedList.add(0, nOptions1Items.get(position1));
                                 resultSelectedList.add(1, nOptions2Items.get(position2));
                                 resultSelectedList.add(2, nOptions3Items.get(position3));
-                                refresh(position1,position2,position3);
+                                refresh(position1, position2, position3);
                                 break;
                             case THREE_LINKAGE_MODE:
                                 str = options1Items.get(position1).getText() + "-" +
@@ -188,7 +188,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
                                 resultSelectedList.add(0, options1Items.get(position1));
                                 resultSelectedList.add(1, options2Items.get(position1).get(position2));
                                 resultSelectedList.add(2, options3Items.get(position1).get(position2).get(position3));
-                                refresh(position1,position2,position3);
+                                refresh(position1, position2, position3);
                                 break;
                             case SINGLE_BAR_MODE:
                                 StringBuilder sb = new StringBuilder();
@@ -208,7 +208,7 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
 
                     @Override
                     public void onSelectChanged(int position1, int position2, int position3, DialogMode dialogMode, boolean isLinkageCompleteDa) {
-                        switch (dialogMode){
+                        switch (dialogMode) {
                             case THREE_LINKAGE_MODE:
                                 //联动数据不是完整传入,需要处理联动数据变化
                                 if (!isLinkageCompleteDa) {
@@ -248,13 +248,14 @@ public class ItemClickPopupViewHolder extends BaseViewHolder<List<TextBean>> {
 
     /**
      * 刷新
+     *
      * @return
      */
-    public void refresh(@NonNull int option1, @Nullable int option2, @Nullable int option3){
+    public void refresh(@NonNull int option1, @Nullable int option2, @Nullable int option3) {
         manager.refresh(option1, option2, option3);
     }
 
-    public static class Builder{
+    public static class Builder {
         private String label;
         private DialogActionListener actionListener;
         //第一列

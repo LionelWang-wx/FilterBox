@@ -26,11 +26,17 @@
             android:textStyle="bold"
             android:layout_marginBottom="5dp"
             />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sizer_recycle"
+        <!--NestedScrollView解决RecyclerView缓存加载问题-->
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="wrap_content"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sizer_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <TextView

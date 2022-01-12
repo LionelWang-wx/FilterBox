@@ -6,18 +6,18 @@ import java.util.List;
 /**
  * 资源整理类
  */
-public abstract class BaseSource<T>{
+public abstract class BaseSource<T> {
     //装载itemStyles的集合
     public List<T> itemStyles;
 
-    public BaseSource(){
+    public BaseSource() {
         itemStyles = new ArrayList<>();
     }
 
     /**
      * 添加ItemStyle
      */
-    public void addItemStyle(T itemStyle){
+    public void addItemStyle(T itemStyle) {
         itemStyles.add(itemStyle);
     }
 }

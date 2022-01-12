@@ -15,6 +15,7 @@ private boolean isShowSelectList;
 #ItemClickList 选中情况1.有全部选项 单选 多选  2.没有全部选项 单选 多选
 #当前弹窗不是主弹窗时需要设置DialogActionListener
 #setLinkageCompleteData 设置联动数据是否传入完成      false->需要进一步处理联动数据变化
+//默认主样式崩溃问题：禁用recyclerView缓存加载解决问题
 
 //异常修复
 //副弹窗添加全部选项
